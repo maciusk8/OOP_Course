@@ -17,14 +17,16 @@ public class World
      {
          for (var direction : directions)
          {
-             String message = switch (direction)
+             if (direction != null)
              {
-                 case FORWARD -> "moving forward";
-                 case BACKWARD -> "moving backward";
-                 case LEFT -> "turning left";
-                 case RIGHT -> "turning right";
-             };
-             IO.println(String.format("%s is %s.", petName, message));
+                 String message = switch (direction) {
+                     case FORWARD -> "moving forward";
+                     case BACKWARD -> "moving backward";
+                     case LEFT -> "turning left";
+                     case RIGHT -> "turning right";
+                 };
+                 IO.println(String.format("%s is %s.", petName, message));
+             }
          }
      }
 
