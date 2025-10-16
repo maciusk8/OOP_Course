@@ -19,6 +19,6 @@ public enum MoveDirection
                 return k;
             }
         }
-        throw new IllegalArgumentException("Direction not found: " + text);
+        return null;
     }
 }
