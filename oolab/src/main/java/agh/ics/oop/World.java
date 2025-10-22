@@ -7,7 +7,6 @@ public class World
     public static final String petName = "Big Boss";
     public static void main(String[] args)
     {
-        var moveDriection = new MoveDirection[]{};
         IO.println(String.format("System started."));
         run(OptionParser.parseMoveDirections(args));
         IO.println(String.format("System finished."));
