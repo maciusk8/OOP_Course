@@ -10,6 +10,7 @@ public class World
         IO.println(String.format("System started."));
         run(OptionParser.parseMoveDirections(args));
         IO.println(String.format("System finished."));
+
     }
 
      private static void run(MoveDirection[] directions)
