@@ -15,6 +15,6 @@ public class OptionParser
                 directions[i++] = MoveDirection.initializeFromArgs(arg);
             }
         }
-        return Arrays.copyOf(directions, i+1);
+        return Arrays.copyOf(directions, i);
     }
 }
