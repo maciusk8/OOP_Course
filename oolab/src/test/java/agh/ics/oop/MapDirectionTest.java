@@ -10,21 +10,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapDirectionTest
 {
-//    @ParameterizedTest(name = "{0}.next() zwraca {1}")  <------------ W poleceniu jest aby uzyć @Test wiec zostawiam zakomentowany, ale moim zdaniem taki test jest bardziej elegancki i given when then ma wtedy sens
+//    @ParameterizedTest(name = "{0}.next() zwraca {1}")  <------------ W poleceniu jest aby uzyć @Test wiec zostawiam zakomentowany, ale moim zdaniem taki test jest bardziej elegancki i given when then ma wtedy sens bo mowa jest o pojedynczym tescie
 //    @CsvSource({
-//            "NORTH, EAST",     //When
+//            "NORTH, EAST",     //Given
 //            "EAST,  SOUTH",
 //            "SOUTH, WEST",
 //            "WEST,  NORTH"
 //    })
 //    void testDirectionNext(MapDirection direction, MapDirection expected)
 //    {
-//        assertEquals(expected, direction.next());  //Then
+//        assertEquals(expected, direction.next());  //When & Then
 //    }
 
 
     @Test
-    void DirectionNext()
+    void directionNext()
     {
         assertEquals(MapDirection.NORTH, MapDirection.WEST.next());
         assertEquals(MapDirection.EAST, MapDirection.NORTH.next());
@@ -33,7 +33,7 @@ class MapDirectionTest
     }
 
     @Test
-    void DirectionPrevious()
+    void directionPrevious()
     {
         assertEquals(MapDirection.NORTH, MapDirection.EAST.previous());
         assertEquals(MapDirection.EAST, MapDirection.SOUTH.previous());

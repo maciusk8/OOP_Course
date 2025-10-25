@@ -2,8 +2,9 @@ package agh.ics.oop;
 
 import java.util.Objects;
 
-public record Vector2d(int x, int y) // dr. Idzik pozwolił a nawet zalecił na zamiane tej klasy na Record gdy się go o to zapytałem na wykładzie
+public record Vector2d(int x, int y) // dr. Idzik pozwolił a nawet zalecił mi zmiane tej klasy na record gdy się go o to zapytałem na wykładzie
 {
+    @Override
     public String toString() {
         return String.format("(%d, %d)", x, y);
     }
@@ -36,7 +37,8 @@ public record Vector2d(int x, int y) // dr. Idzik pozwolił a nawet zalecił na 
         return new Vector2d(-x, -y);
     }
 
-    @Override
+    //Z tego co rozumiem, w rekordzie nie trzeba pisać swojego equalsa i hashCodea, ale na potrzeby zadania, zostawiam aby pokazać, że wiem jak to robic
+   @Override
     public boolean equals(Object other) {
         if (other == this)
             return true;
