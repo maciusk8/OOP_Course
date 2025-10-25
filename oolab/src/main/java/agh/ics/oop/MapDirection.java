@@ -8,7 +8,7 @@ public enum MapDirection
     EAST,
     SOUTH,
     WEST;
-    private final static int DIRECTIONS_CNT = 4;
+    private static final int DIRECTIONS_CNT = MapDirection.values().length;
     @Override
     public String toString()
     {

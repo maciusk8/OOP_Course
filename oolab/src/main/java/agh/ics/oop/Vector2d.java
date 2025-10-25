@@ -24,16 +24,12 @@ public class Vector2d
     {
        if (other == this)
            return true;
-       if (!(other instanceof Vector2d))
+       if (!(other instanceof Vector2d that))
            return false;
-       Vector2d that = (Vector2d) other;
-       return x == that.x && y == that.y;
+        return x == that.x && y == that.y;
     }
     @Override
-    public int hashCode() {
-        return Objects.hash(this.x, this.y);
-    }
-
+    public int hashCode() {return Objects.hash(x, y);}
 
     public int getX() { return x; }
     public int getY() { return y; }
