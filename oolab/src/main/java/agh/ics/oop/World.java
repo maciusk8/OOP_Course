@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class World
 {
-    public static final String petName = "Big Boss";
     public static void main(String[] args)
     {
         IO.println(String.format("System started."));
