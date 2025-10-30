@@ -13,7 +13,6 @@ public class World
     {
         var myPet = new Animal();
         IO.println(myPet);
-        run(OptionParser.parseMoveDirections(args));
     }
 
     private static void run(MoveDirection[] directions)
