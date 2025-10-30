@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class World
 {
+    public static final Vector2d UPPER_RIGHT_CORNER = new Vector2d(4, 4);
+    public static final Vector2d LOWER_LEFT_CORNER = new Vector2d(0, 0);
     public static void main(String[] args)
     {
         var myPet = new Animal();
