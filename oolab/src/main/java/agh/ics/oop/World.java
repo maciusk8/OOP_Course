@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 
 import java.util.Objects;
@@ -8,14 +9,9 @@ public class World
 {
     public static void main(String[] args)
     {
-        IO.println(String.format("System started."));
+        var myPet = new Animal();
+        IO.println(myPet);
         run(OptionParser.parseMoveDirections(args));
-        IO.println(String.format("System finished."));
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
     }
 
     private static void run(MoveDirection[] directions)
@@ -24,13 +20,14 @@ public class World
          {
              if (direction != null)
              {
-                 String message = switch (direction) {
-                     case FORWARD -> "moving forward";
-                     case BACKWARD -> "moving backward";
-                     case LEFT -> "turning left";
-                     case RIGHT -> "turning right";
+                 String message = switch (direction)
+                 {
+                     case FORWARD -> "forward";
+                     case BACKWARD -> "backward";
+                     case LEFT -> "left";
+                     case RIGHT -> "right";
                  };
-                 IO.println(String.format("%s is %s.", petName, message));
+                 IO.println(String.format("Animal is moving %s.", message));
              }
          }
      }
