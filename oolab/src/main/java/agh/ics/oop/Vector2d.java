@@ -36,18 +36,4 @@ public record Vector2d(int x, int y) // dr. Idzik pozwolił a nawet zalecił mi 
     public Vector2d opposite() {
         return new Vector2d(-x, -y);
     }
-
-    //Z tego co rozumiem, w rekordzie nie trzeba pisać swojego equalsa i hashCodea, ale na potrzeby zadania, zostawiam aby pokazać, że wiem jak to robic
-   @Override
-    public boolean equals(Object other) {
-        if (other == this)
-            return true;
-        if (!(other instanceof Vector2d that))
-            return false;
-        return x == that.x && y == that.y;
-    }
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
 }

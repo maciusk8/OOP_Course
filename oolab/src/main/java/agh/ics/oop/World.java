@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
 
+import java.util.Objects;
+
 public class World
 {
     public static final String petName = "Big Boss";
