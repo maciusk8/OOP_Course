@@ -1,0 +1,34 @@
+package agh.ics.oop;
+
+import agh.ics.oop.model.Animal;
+import agh.ics.oop.model.MoveDirection;
+
+import java.util.List;
+
+public class Simulation
+{
+    private final List<Vector2d> startingPositions;
+    private final List<MoveDirection> directions;
+    private final List<Animal> animals;
+    private final int animalCnt;
+
+    public Simulation(List<Vector2d> startingPositions, List<MoveDirection> directions)
+    {
+        this.startingPositions = startingPositions;
+        this.directions = directions;
+        this.animalCnt = startingPositions.size();
+        this.animals = startingPositions.stream()
+                .map(Animal::new)
+                .toList();
+    }
+
+
+    public void run()
+    {
+        for (int i = 0; i < directions.size(); i++)
+        {
+            animals.get(i%animalCnt).move(directions.get(i));
+            IO.println(String.format("Zwierzę %d: %s", i%animalCnt, animals.get(i%animalCnt)));
+        }
+    }
+}

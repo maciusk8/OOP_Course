@@ -16,7 +16,7 @@ public class Animal
     public Animal(Vector2d position) {orientation = DEFAULT_ORIENTATION; this.position = position;}
     public Animal() { this(new Vector2d(2,2)); }
     public boolean isAt(Vector2d position) {return Objects.equals(position, this.position);}
-    public void move(MoveDirection direction)
+    public void move(MoveDirection direction) //Myśle, ze lepiej byloby zrobic dwie publiczne metody move i turn, ale robie tak jak jest w poleceniu. Nie rozbijam na dwie prywatne metody bo nie zwiększyłoby to znacznie czytelności a napewno więcej linijek by to zajelo.
     {
         Vector2d newPosition = null;
 
