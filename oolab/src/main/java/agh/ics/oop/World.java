@@ -3,6 +3,7 @@ package agh.ics.oop;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 
+import java.util.List;
 import java.util.Objects;
 
 public class World
@@ -13,6 +14,11 @@ public class World
     {
         var myPet = new Animal();
         IO.println(myPet);
+        //f b r l f f r r f f f f f f f f
+        List<MoveDirection> directions = OptionParser.parseMoveDirections(args);
+        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
+        Simulation simulation = new Simulation(positions, directions);
+        simulation.run();
     }
 
     private static void run(MoveDirection[] directions)

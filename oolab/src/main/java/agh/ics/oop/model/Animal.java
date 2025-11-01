@@ -41,6 +41,6 @@ public class Animal
     @Override
     public String toString()
     {
-        return String.format("Zwierzak na pozycji %s, patrzy na %s", position, orientation);
+        return String.format("na pozycji %s, patrzy na %s", position, orientation);
     }
 }
