@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import java.util.Objects;
 
-public record Vector2d(int x, int y) // dr. Idzik pozwolił a nawet zalecił mi zmiane tej klasy na record gdy się go o to zapytałem na wykładzie
+public record Vector2d(int x, int y)
 {
     @Override
     public String toString() {
