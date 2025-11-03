@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AnimalTest
-{ @ParameterizedTest()
+{
+    @ParameterizedTest()
     @CsvSource({
             "RIGHT, NORTH, EAST",
             "LEFT, NORTH, WEST",
@@ -119,8 +120,9 @@ class AnimalTest
     @Test
     void secondConstructorCheck()
     {
-        var animal = new Animal(CENTER);
-        assertTrue(animal.isAt(CENTER));
+        var startingPosition = new Vector2d(1, 1);
+        var animal = new Animal(startingPosition);
+        assertTrue(animal.isAt(startingPosition));
         assertTrue(animal.isFacing(DEFAULT_ORIENTATION));
     }
 }
