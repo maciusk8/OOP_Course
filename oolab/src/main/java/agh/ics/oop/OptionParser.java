@@ -11,9 +11,11 @@ public class OptionParser
 {
     public static List<MoveDirection> parseMoveDirections(String[] args)
     {
-        return Arrays.stream(args)
-                .map(MoveDirection::initializeFromArgs)
-                .filter(Objects::nonNull)
-                .toList();
+        return new ArrayList<>(
+                Arrays.stream(args)
+                        .map(MoveDirection::initializeFromArgs)
+                        .filter(Objects::nonNull)
+                        .toList()
+        );
     }
 }

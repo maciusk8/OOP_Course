@@ -3,6 +3,7 @@ package agh.ics.oop;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation
@@ -15,9 +16,11 @@ public class Simulation
     {
         this.directions = directions;
         this.animalCnt = startingPositions.size();
-        this.animals = startingPositions.stream()
-                .map(Animal::new)
-                .toList();
+        this.animals = new ArrayList<>(
+                startingPositions.stream()
+                        .map(Animal::new)
+                        .toList()
+        );
     }
 
     public void run()
@@ -34,9 +37,11 @@ public class Simulation
     {
         this.directions = directions;
         this.animalCnt = startingPositions.size();
-        this.animals = startingPositions.stream()
-                .map(pos -> new Animal(pos, Animal.DEFAULT_ORIENTATION, lowerLeftCorner, upperRightCorner))
-                .toList();
+        this.animals = new ArrayList<>(
+                startingPositions.stream()
+                        .map(pos -> new Animal(pos, Animal.DEFAULT_ORIENTATION, lowerLeftCorner, upperRightCorner))
+                        .toList()
+        );
     }
     //Getter na potrzeby testów nie uzywać poza nim
     public List<Animal> getAnimals() {return animals;}
