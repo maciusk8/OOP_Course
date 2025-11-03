@@ -54,13 +54,12 @@ public class Animal
         return String.format("na pozycji %s, patrzy na %s", position, orientation);
     }
 
-    //Konstruktor na potrzeby testu SimulationTest
-    public Animal(Vector2d position, MapDirection orientation, Vector2d lowerLeftCorner, Vector2d upperRightCorner) {
-        {
-            this.position = position;
-            this.orientation = orientation;
-            this.lowerLeftCorner = lowerLeftCorner;
-            this.upperRightCorner = upperRightCorner;
-        }
+    //Konstruktor na potrzeby testów nie powinno się go uzywac poza nim
+    public Animal(Vector2d position, MapDirection orientation, Vector2d lowerLeftCorner, Vector2d upperRightCorner)
+    {
+        this.position = position;
+        this.orientation = orientation;
+        this.lowerLeftCorner = lowerLeftCorner;
+        this.upperRightCorner = upperRightCorner;
     }
 }
