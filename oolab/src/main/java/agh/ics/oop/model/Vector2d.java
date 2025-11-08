@@ -1,6 +1,4 @@
-package agh.ics.oop;
-
-import java.util.Objects;
+package agh.ics.oop.model;
 
 public record Vector2d(int x, int y)
 {

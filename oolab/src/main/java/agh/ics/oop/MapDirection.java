@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-import java.util.Map;
+import agh.ics.oop.model.Vector2d;
 
 public enum MapDirection
 {

@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +45,5 @@ public class Simulation
         );
     }
     //Getter na potrzeby testów nie uzywać poza nim
-    public List<Animal> getAnimals() {return animals;}
+    public List<Animal> getAnimals() {return List.copyOf(animals);}
 }
