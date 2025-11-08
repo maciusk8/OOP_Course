@@ -8,9 +8,6 @@ import java.util.List;
 
 public class World
 {
-    public static final Vector2d UPPER_RIGHT_CORNER = new Vector2d(4, 4); //Myśle, ze te stale powinny byc w klasie World a nie w klasie Animal, dotycza one wymiaru mapy na kotrej poruszaja sie obiekty Animal
-    public static final Vector2d LOWER_LEFT_CORNER = new Vector2d(0, 0);
-    public static final Vector2d CENTER = new Vector2d(2, 2);
     public static void main(String[] args)
     {
         var myPet = new Animal();
