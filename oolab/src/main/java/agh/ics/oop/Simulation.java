@@ -1,8 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +10,11 @@ public class Simulation
     private final List<MoveDirection> directions;
     private final List<Animal> animals;
     private final int animalCnt;
+    private final WorldMap map;
 
-    public Simulation(List<Vector2d> startingPositions, List<MoveDirection> directions)
+    public Simulation(List<Vector2d> startingPositions, List<MoveDirection> directions, WorldMap map)
     {
+        this.map = map;
         this.directions = directions;
         this.animalCnt = startingPositions.size();
         this.animals = new ArrayList<>(
@@ -22,28 +22,32 @@ public class Simulation
                         .map(Animal::new)
                         .toList()
         );
+        initializeMap();
+    }
+
+    // Zakładam, ze moga pojawic sie nieprawidlowe dane skoro tego nie sprecyzowano w poleceniu
+    private void initializeMap()
+    {
+        for (Animal animal : animals)
+        {
+            boolean result = map.place(animal);
+            if (!result)
+            {
+                throw new IllegalArgumentException("Invalid initial animal placement. " +
+                        "Position " + animal.getPosition() + " is already occupied or out of bounds.");
+            }
+        }
     }
 
     public void run()
     {
         for (int i = 0; i < directions.size(); i++)
         {
-            animals.get(i%animalCnt).move(directions.get(i));
-            IO.println(String.format("Zwierzę %d: %s", i%animalCnt, animals.get(i%animalCnt)));
+            map.move(animals.get(i%animalCnt), directions.get(i));
+            IO.println(map);
         }
     }
 
-    //Konstruktor na potrzeby testów nie powinno się go uzywac poza nim
-    public Simulation(List<Vector2d> startingPositions, List<MoveDirection> directions, Vector2d lowerLeftCorner, Vector2d upperRightCorner)
-    {
-        this.directions = directions;
-        this.animalCnt = startingPositions.size();
-        this.animals = new ArrayList<>(
-                startingPositions.stream()
-                        .map(pos -> new Animal(pos, Animal.DEFAULT_ORIENTATION, lowerLeftCorner, upperRightCorner))
-                        .toList()
-        );
-    }
     //Getter na potrzeby testów nie uzywać poza nim
     public List<Animal> getAnimals() {return List.copyOf(animals);}
 }
