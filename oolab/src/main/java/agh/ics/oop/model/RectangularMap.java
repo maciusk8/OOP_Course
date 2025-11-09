@@ -15,7 +15,7 @@ public class RectangularMap implements WorldMap
 
     public RectangularMap(int width, int height) // zakładam, ze dane sa poprawne czyli dodatnie niezerowe
     {
-        upperRightCorner = new Vector2d(width - 1, height -1);
+        upperRightCorner = new Vector2d(width - 1, height - 1);
     }
     private boolean isWithinBounds(Vector2d position)
     {

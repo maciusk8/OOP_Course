@@ -28,8 +28,9 @@ class AnimalTest
     })
     void runMethodShouldChangeOrientationGivenLeftOrRight(MoveDirection direction, MapDirection lookingAt, MapDirection expected)
     {
-        var animal = new Animal(DEFAULT_POSITION, lookingAt, LOWER_LEFT_CORNER, UPPER_RIGHT_CORNER); //Given
-        animal.move(direction); //When
+        var animal = new Animal(DEFAULT_POSITION, lookingAt);
+        var map = new RectangularMap(5,5);//Given
+        animal.move(direction, map); //When
         assertTrue(animal.isFacing(expected)); //Then
     }
 
@@ -38,9 +39,8 @@ class AnimalTest
     void runMethodShouldChangePositionGivenForwardOrBackward(MoveDirection direction, MapDirection lookingAt, Vector2d expected)
     {
         var animal = new Animal();
-
-        animal.move(direction);
-
+        var map = new RectangularMap(5,5);//Given
+        animal.move(direction, map); //When
         assertTrue(animal.isAt(expected));
     }
 
@@ -60,8 +60,9 @@ class AnimalTest
     void runMethodShouldNotChangePositionGivenLeftOrRight(MoveDirection direction)
     {
         var animal = new Animal();;
+        var map = new RectangularMap(5,5);
 
-        animal.move(direction);
+        animal.move(direction, map);
 
         assertTrue(animal.isAt(DEFAULT_POSITION));
 
@@ -71,9 +72,9 @@ class AnimalTest
     @MethodSource("moveDataSecond")
     void runMethodShouldNotChangePositionBeingOnBorderLookingOutside(MapDirection lookingAt, Vector2d beingAt)
     {
-        var animal = new Animal(beingAt, lookingAt, LOWER_LEFT_CORNER, UPPER_RIGHT_CORNER);
-
-        animal.move(MoveDirection.FORWARD);
+        var animal = new Animal(beingAt, lookingAt);
+        var map = new RectangularMap(5,5);
+        animal.move(MoveDirection.FORWARD, map);
 
         assertTrue(animal.isAt(beingAt));
     }
@@ -81,19 +82,20 @@ class AnimalTest
     private static Stream<Arguments> moveDataSecond()
     {
         return Stream.of(
-                Arguments.of(MapDirection.WEST, LOWER_LEFT_CORNER),
-                Arguments.of(MapDirection.SOUTH, LOWER_LEFT_CORNER),
-                Arguments.of(MapDirection.NORTH, UPPER_RIGHT_CORNER),
-                Arguments.of(MapDirection.EAST, UPPER_RIGHT_CORNER)
+                Arguments.of(MapDirection.WEST, new Vector2d(0, 0)),
+                Arguments.of(MapDirection.SOUTH, new Vector2d(4, 4)),
+                Arguments.of(MapDirection.NORTH, new Vector2d(0, 0)),
+                Arguments.of(MapDirection.EAST, new Vector2d(4, 4))
                 );
     }
 
     @Test
     void runMethodShouldNotChangePositionOutsideBorder()
     {
-        var vectorOutsideBorder = UPPER_RIGHT_CORNER.add(new Vector2d(1,1));
-        var animal = new Animal(vectorOutsideBorder, DEFAULT_ORIENTATION, LOWER_LEFT_CORNER,  UPPER_RIGHT_CORNER);
-        animal.move(MoveDirection.FORWARD);
+        var map = new RectangularMap(5,5);//Given
+        var vectorOutsideBorder = new Vector2d(5, 5);
+        var animal = new Animal(vectorOutsideBorder);
+        animal.move(MoveDirection.FORWARD, map);
         assertTrue(animal.isAt(vectorOutsideBorder));
     }
     @Test
