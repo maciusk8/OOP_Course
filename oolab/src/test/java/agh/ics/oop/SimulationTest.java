@@ -1,8 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,15 +18,15 @@ class SimulationTest {
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
                         "f b r l f f r r f f f f f f f f".split(" "),
-                        new Vector2d(0, 0), new Vector2d(4, 4),
-                        new ArrayList<>(List.of(new Vector2d(3, 0), new Vector2d(2, 4))),
+                        new RectangularMap(5, 5),
+                        new ArrayList<>(List.of(new Vector2d(2, 0), new Vector2d(3, 4))),
                         new ArrayList<>(List.of(MapDirection.SOUTH, MapDirection.NORTH))
                 ),
                 //Przypadek 2: Zderzenia ze ścianami na małej mapie
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(1, 1))),
                         "f f r f f l b b b".split(" "),
-                        new Vector2d(0, 0), new Vector2d(2, 2),
+                        new RectangularMap(3, 3),
                         new ArrayList<>(List.of(new Vector2d(2, 0))),
                         new ArrayList<>(List.of(MapDirection.NORTH))
                 ),
@@ -36,42 +34,42 @@ class SimulationTest {
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(0, 0), new Vector2d(4, 4))),
                         "l f f r l f f".split(" "),
-                        new Vector2d(0, 0), new Vector2d(4, 4),
+                        new RectangularMap(5, 5),
                         new ArrayList<>(List.of(new Vector2d(0, 0), new Vector2d(4, 4))),
                         new ArrayList<>(List.of(MapDirection.SOUTH, MapDirection.EAST))
                 ),
-                //Przypadek 4: 3 pokrywające się zwierzaki
-                Arguments.of(
-                        new ArrayList<>(List.of(new Vector2d(1, 1), new Vector2d(1, 1), new Vector2d(1, 1))),
-                        "f f f r r r".split(" "),
-                        new Vector2d(0, 0), new Vector2d(4, 4),
-                        new ArrayList<>(List.of(new Vector2d(1, 2), new Vector2d(1, 2), new Vector2d(1, 2))),
-                        new ArrayList<>(List.of(MapDirection.EAST, MapDirection.EAST, MapDirection.EAST))
-                ),
 
-                // Przypadek 5: Zwierzak poruszający się po granicy
+                // Przypadek 4: Zwierzak poruszający się po granicy
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(0, 0))),
                         "f f f f r f f f f r f f f f r f f f l".split(" "),
-                        new Vector2d(0, 0), new Vector2d(4, 4),
+                        new RectangularMap(5, 5),
                         new ArrayList<>(List.of(new Vector2d(1, 0))),
                         new ArrayList<>(List.of(MapDirection.SOUTH))
                 ),
-                //Przypadek 6: test z polecenia z invalid stringami
+                //Przypadek 5: test z polecenia z invalid stringami
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
                         "invalid f b invalid r l f invalid f r r f f f f f f f f invalid".split(" "),
-                        new Vector2d(0, 0), new Vector2d(4, 4),
-                        new ArrayList<>(List.of(new Vector2d(3, 0), new Vector2d(2, 4))),
+                        new RectangularMap(5, 5),
+                        new ArrayList<>(List.of(new Vector2d(2, 0), new Vector2d(3, 4))),
                         new ArrayList<>(List.of(MapDirection.SOUTH, MapDirection.NORTH))
                 ),
-                //Przypadek 7: test z pustym stringiem
+                //Przypadek 6: test z pustym stringiem
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
                         "".split(" "),
-                        new Vector2d(0, 0), new Vector2d(4, 4),
+                        new RectangularMap(5, 5),
                         new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
                         new ArrayList<>(List.of(MapDirection.NORTH, MapDirection.NORTH))
+                ),
+                //Przypadek 7: najmniejsza mapa
+                Arguments.of(
+                        new ArrayList<>(List.of(new Vector2d(0, 0))),
+                        "f f r r f".split(" "),
+                        new RectangularMap(1, 1),
+                        new ArrayList<>(List.of(new Vector2d(0, 0))),
+                        new ArrayList<>(List.of(MapDirection.SOUTH))
                 )
         );
     }
@@ -82,14 +80,13 @@ class SimulationTest {
     void shouldSimulationProduceCorrectFinalPositions(
             List<Vector2d> startingPositions,
             String[] args,
-            Vector2d lowerLeftCorner,
-            Vector2d upperRightCorner,
+            WorldMap map,
             List<Vector2d> expectedPositions,
             List<MapDirection> expectedOrientations) {
 
         // Given
         List<MoveDirection> moves = OptionParser.parseMoveDirections(args);
-        Simulation simulation = new Simulation(startingPositions, moves, lowerLeftCorner, upperRightCorner);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
 
         // When
         simulation.run();
@@ -107,14 +104,13 @@ class SimulationTest {
     void shouldSimulationProduceCorrectFinalOrientations(
             List<Vector2d> startingPositions,
             String[] args,
-            Vector2d lowerLeftCorner,
-            Vector2d upperRightCorner,
+            WorldMap map,
             List<Vector2d> expectedPositions,
             List<MapDirection> expectedOrientations)
     {
         // Given
         List<MoveDirection> moves = OptionParser.parseMoveDirections(args);
-        Simulation simulation = new Simulation(startingPositions, moves, lowerLeftCorner, upperRightCorner);
+        Simulation simulation = new Simulation(startingPositions, moves, map);
 
         // When
         simulation.run();
