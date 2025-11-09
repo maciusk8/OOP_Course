@@ -70,6 +70,14 @@ class SimulationTest {
                         new RectangularMap(1, 1),
                         new ArrayList<>(List.of(new Vector2d(0, 0))),
                         new ArrayList<>(List.of(MapDirection.SOUTH))
+                ),
+                //Przypadek 8: zwierzeta nie powinny przez siebie przechodzic
+                Arguments.of(
+                        new ArrayList<>(List.of(new Vector2d(0, 0), new Vector2d(1, 0))),
+                        "r l f f".split(" "),
+                        new RectangularMap(3, 3),
+                        new ArrayList<>(List.of(new Vector2d(0, 0), new Vector2d(1, 0))),
+                        new ArrayList<>(List.of(MapDirection.EAST, MapDirection.WEST))
                 )
         );
     }

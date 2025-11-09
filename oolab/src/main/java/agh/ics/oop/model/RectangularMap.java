@@ -13,9 +13,9 @@ public class RectangularMap implements WorldMap
     private final Vector2d upperRightCorner; //x - definiuje szerokosc, y - definiuje wysokosc
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
-    public RectangularMap(int width, int height) // zakładam, ze dane sa poprawne czyli dodatnie niezerowe
+    public RectangularMap(int width, int height) // zakładam, ze dane sa poprawne czyli dodatnie niezerowe, najmniejsza mapa to pojedynczy punkty czyli plansza 1x1
     {
-        upperRightCorner = new Vector2d(width - 1, height - 1);
+        upperRightCorner = new Vector2d(width - 1, height - 1); // bo numerujemy pola od 0 do n - 1, a nie od 1 do n. tj. plansza 1x1 to pole (0, 0)
     }
     private boolean isWithinBounds(Vector2d position)
     {
