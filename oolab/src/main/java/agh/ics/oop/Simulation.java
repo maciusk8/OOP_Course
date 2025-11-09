@@ -41,6 +41,9 @@ public class Simulation
 
     public void run()
     {
+        if (animalCnt == 0)
+            return;
+
         for (int i = 0; i < directions.size(); i++)
         {
             map.move(animals.get(i%animalCnt), directions.get(i));
