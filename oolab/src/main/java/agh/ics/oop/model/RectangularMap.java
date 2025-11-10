@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class RectangularMap implements WorldMap
+public class RectangularMap implements WorldMap<Animal, Vector2d>
 {
     private Map<Vector2d, Animal> animals = new HashMap<>();
     private static final Vector2d lowerLeftCorner = new Vector2d(0, 0); //instrukcja nie podaje jak mapa mapa ma być zagnieżdżona w układzie współrzędnych. Najbardziej intuicyjne wydaje mi się umieszczenie jej w I ćwiartce
