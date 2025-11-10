@@ -2,55 +2,39 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Simulation
+public class Simulation<T, P>
 {
     private final List<MoveDirection> directions;
-    private final List<Animal> animals;
-    private final int animalCnt;
-    private final WorldMap map;
+    private final List<T> objects;
+    private final int objectsCnt;
+    private final WorldMap<T, P> map;
 
-    public Simulation(List<Vector2d> startingPositions, List<MoveDirection> directions, WorldMap map)
+    public Simulation(List<T> objects, List<MoveDirection> directions, WorldMap<T,P> map)
     {
         this.map = map;
         this.directions = directions;
-        this.animalCnt = startingPositions.size();
-        this.animals = new ArrayList<>(
-                startingPositions.stream()
-                        .map(Animal::new)
-                        .toList()
-        );
-        initializeMap();
-    }
+        this.objects = objects;
+        this.objectsCnt = objects.size();
 
-    // Zakładam, ze moga pojawic sie nieprawidlowe dane skoro tego nie sprecyzowano w poleceniu
-    private void initializeMap()
-    {
-        for (Animal animal : animals)
-        {
-            boolean result = map.place(animal);
-            if (!result)
-            {
-                throw new IllegalArgumentException("Invalid initial animal placement. " +
-                        "Position " + animal.getPosition() + " is already occupied or out of bounds.");
-            }
+        for (T obj : this.objects) {
+            this.map.place(obj);
         }
     }
 
     public void run()
     {
-        if (animalCnt == 0)
+        if (objectsCnt == 0)
             return;
 
         for (int i = 0; i < directions.size(); i++)
         {
-            map.move(animals.get(i%animalCnt), directions.get(i));
+            map.move(objects.get(i% objectsCnt), directions.get(i));
             IO.println(map);
         }
     }
 
     //Getter na potrzeby testów nie uzywać poza nim
-    public List<Animal> getAnimals() {return List.copyOf(animals);}
+    public List<T> getObjects() {return List.copyOf(objects);}
 }
