@@ -13,7 +13,7 @@ public interface WorldMap<T, P> extends MoveValidator<P>{
     /**
      * Place a new animal on the map.
      *
-     * @param animal The animal to be placed on the map.
+     * @param object The animal to be placed on the map.
      * @return True if the animal was placed. The rules for valid placement are the same as for movement.
      */
     boolean place(T object);
