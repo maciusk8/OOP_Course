@@ -1,25 +1,23 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
-
 import java.util.*;
 
-public class TextMap implements WorldMap<String, Integer>
+public class TextMap implements WorldNumberPositionMap<String>
 {
-    private List<String> map = new LinkedList<>(); //poniewaz czesto modyfikuje elementy
+    private List<String> textList = new LinkedList<>(); //poniewaz czesto modyfikuje elementy
     @Override
     public boolean place(String object)
     {
-        if (object == null)
+        if (textList.contains(object) || object == null) //nie jest to sprecyzowane, wiec przyjmuje ze nie moze byc kilka stringow z takim samym napisem, wtedy move str rusza wszystkimi? pierwszym napotkanym? mysle ze lepiej to tak obsluzyc
             return false;
-        map.add(object);
+        textList.add(object);
         return true;
     }
 
     @Override
     public void move(String object, MoveDirection direction)
     {
-        int position = map.indexOf(object);
+        int position = textList.indexOf(object);
         if (position == -1)
             return;
         int newPosition = position;
@@ -28,32 +26,37 @@ public class TextMap implements WorldMap<String, Integer>
             case FORWARD, RIGHT -> newPosition++;
             case BACKWARD, LEFT -> newPosition--;
         }
-        if (newPosition < 0 || newPosition >= map.size())
+        if (newPosition < 0 || newPosition >= textList.size())
             return;
-        String neighbour = map.get(newPosition);
-        map.set(newPosition, object);
-        map.set(position, neighbour);
+        String neighbour = textList.get(newPosition);
+        textList.set(newPosition, object);
+        textList.set(position, neighbour);
     }
 
     @Override
-    public boolean isOccupied(Integer position)
+    public boolean isOccupied(Number position)
     {
-        if (position == null)
+        if (position == null || !(position instanceof Integer))
             return false;
-        return position >= 0 && position < map.size();
+        return position.intValue() >= 0 && position.intValue() < textList.size();
     }
 
     @Override
-    public String objectAt(Integer position)
+    public String objectAt(Number position)
     {
         if (!isOccupied(position))
             return null;
-        return map.get(position);
+        return textList.get(position.intValue());
     }
 
     @Override
-    public boolean canMoveTo(Integer position)
+    public boolean canMoveTo(Number position)
     {
         return isOccupied(position);
+    }
+
+    @Override
+    public String toString() {
+        return String.join(" ", textList);
     }
 }
