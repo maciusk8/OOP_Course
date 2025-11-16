@@ -7,15 +7,10 @@ import java.util.*;
 
 import static java.lang.Math.sqrt;
 
-public class GrassField implements WorldMap
+public class GrassField extends AbstractWorldMap
 {
     private final int grassCnt;
     private  Map<Vector2d, Grass> grasses = new HashMap<>();
-    private Map<Vector2d, Animal> animals = new HashMap<>();
-    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
-    private Vector2d upperRightCorner;
-    private Vector2d lowerLeftCorner;
-
 
     public GrassField(int grassCnt)
     {
@@ -28,66 +23,48 @@ public class GrassField implements WorldMap
         {
             grasses.put(grassPosition, new Grass(grassPosition));
         }
-    }
 
-    private void updateBounds(Vector2d position)
-    {
-        if (position.precedes(lowerLeftCorner)) {lowerLeftCorner = position;}
-        if (position.follows(upperRightCorner)) {upperRightCorner = position;}
+        upperRightCorner = new Vector2d(0, 0);
+        lowerLeftCorner = upperRightCorner;
     }
+    @Override
+    public boolean isOccupied(Vector2d position) {return animals.containsKey(position) || grasses.containsKey(position);}
 
     @Override
-    public boolean place(Animal animal)
-    {
-        if (animal == null)
-            return false;
-
-        Vector2d position = animal.getPosition();
-        boolean canPlace = canMoveTo(position);
-        if (canPlace)
-        {
-            animals.put(position, animal);
-            updateBounds(position);
+    public WorldElement objectAt(Vector2d position) {
+        if (isOccupied(position) && animals.containsKey(position)) {
+            return animals.get(position);
         }
-        return canPlace;
+        return grasses.get(position);
     }
 
     @Override
-    public void move(Animal animal, MoveDirection direction)
+    public boolean canMoveTo(Vector2d position)
     {
-        if (animal == null || direction == null)
-            return;
-
-        Vector2d initialPosition = animal.getPosition();
-        if (!Objects.equals(objectAt(initialPosition), animal)) {return;}
-
-        animal.move(direction, this);
-        Vector2d newPosition = animal.getPosition();
-        if (!Objects.equals(initialPosition, newPosition))
-        {
-            animals.remove(initialPosition);
-            animals.put(newPosition, animal);
-            updateBounds(newPosition);
-        }
+        if (objectAt(position) instanceof Animal) return false;
+        else return true;
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {return animals.containsKey(position);}
-
-    @Override
-    public WorldElement objectAt(Vector2d position)
-    {
-        if (isOccupied(position)) {return animals.get(position);}
-        else {return grasses.get(position);}
-
+    public List<WorldElement> getElements() {
+        List<WorldElement> elements = super.getElements();
+        elements.addAll(new ArrayList<>(grasses.values()));
+        return elements;
     }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {return (!isOccupied(position));}
     @Override
     public String toString()
     {
-        if (upperRightCorner == null) {return "empty GrassField";}
-        return mapVisualizer.draw(lowerLeftCorner, upperRightCorner);
+        updateBounds();
+        return super.toString();
+    }
+
+    private void updateBounds()
+    {
+        List<WorldElement> elements = getElements();
+        for (WorldElement element : elements)
+        {
+            lowerLeftCorner = lowerLeftCorner.lowerLeft(element.getPosition());
+            upperRightCorner = upperRightCorner.upperRight(element.getPosition());
+        }
     }
 }
