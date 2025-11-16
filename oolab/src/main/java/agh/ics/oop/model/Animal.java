@@ -4,7 +4,7 @@ import agh.ics.oop.MapDirection;
 
 import java.util.Objects;
 
-public class Animal
+public class Animal implements WorldElement
 {
     public static final MapDirection DEFAULT_ORIENTATION = MapDirection.NORTH;
     public static final Vector2d DEFAULT_POSITION = new Vector2d(0, 0); //uniwersalna, bo w teorii istnieje dla najmniejszej mozliwej mapy
