@@ -1,7 +1,6 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.Random2DPositionGenerator;
-import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
 
@@ -9,24 +8,30 @@ import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap
 {
-    private final int grassCnt;
-    private  Map<Vector2d, Grass> grasses = new HashMap<>();
-
+    private final Map<Vector2d, Grass> grasses;
     public GrassField(int grassCnt)
     {
         if (grassCnt < 0) {throw new IllegalArgumentException("Grass count cannot be negative");}
-        this.grassCnt = grassCnt;
         int size = (int) sqrt(grassCnt*10);
-
-        Random2DPositionGenerator randomPositionGenerator = new Random2DPositionGenerator(size, size, grassCnt);
-        for(Vector2d grassPosition : randomPositionGenerator)
-        {
-            grasses.put(grassPosition, new Grass(grassPosition));
-        }
-
+        grasses = initializeGrasses(size, grassCnt);
         upperRightCorner = new Vector2d(0, 0);
         lowerLeftCorner = upperRightCorner;
     }
+
+    private Map<Vector2d, Grass> initializeGrasses(int size, int grassCnt)
+    {
+        Map<Vector2d, Grass> result = new HashMap<>();
+        Random2DPositionGenerator randomPositionGenerator = new Random2DPositionGenerator(size, size, grassCnt);
+        for(Vector2d grassPosition : randomPositionGenerator)
+        {
+            result.put(grassPosition, new Grass(grassPosition));
+        }
+        return result;
+    }
+
+
+    //W teori mógłbym z poniszych metod wydobyć pewne części wspólne z rectangularMap ale byłyby to pojedyncze linijki i wywoływanie super.metoda() byłoby nieczytelne
+    //Jedyne sensowne zastosowanie tego zrobiłem w toStringu
     @Override
     public boolean isOccupied(Vector2d position) {return animals.containsKey(position) || grasses.containsKey(position);}
 
