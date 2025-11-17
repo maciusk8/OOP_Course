@@ -8,8 +8,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RectangularMapTest {
-
+class RectangularMapTest
+{
     private RectangularMap map;
     private static final int WIDTH = 5;
     private static final int HEIGHT = 5;

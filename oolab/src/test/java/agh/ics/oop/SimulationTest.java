@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SimulationTest {
     private static Stream<Arguments> simulationDataProvider() {
         return Stream.of(
+                //TESTY DLA RectangularMap
+
                 //Test z polecenia
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
@@ -78,6 +80,15 @@ class SimulationTest {
                         new RectangularMap(3, 3),
                         new ArrayList<>(List.of(new Vector2d(0, 0), new Vector2d(1, 0))),
                         new ArrayList<>(List.of(MapDirection.EAST, MapDirection.WEST))
+                ),
+
+                //TEST DLA GrassField // wydaje mi się ze wystarczy jeden skoro wyzej sprawdzamy intergracje symulacji, wiec tutaj wystarczy sprawdzic czy dziala dla grass field a zachowanie grassfield jest testowane juz w swoim unit tescie
+                Arguments.of(
+                        new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
+                        "f b r l f f r r f f f f f f f f".split(" "),
+                        new GrassField(10),
+                        new ArrayList<>(List.of(new Vector2d(2, -1), new Vector2d(3, 7))),
+                        new ArrayList<>(List.of(MapDirection.SOUTH, MapDirection.NORTH))
                 )
         );
     }

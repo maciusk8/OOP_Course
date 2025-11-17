@@ -25,9 +25,9 @@ public class Random2DPositionGenerator  implements Iterable<Vector2d>, Iterator<
     private List<Vector2d> initializeFields()
     {
         List<Vector2d> positions = new ArrayList<>();
-        for (int y = 0; y <= mapHeight; y++)
+        for (int y = 0; y < mapHeight; y++)
         {
-            for (int x = 0; x <= mapWidth; x++)
+            for (int x = 0; x < mapWidth; x++)
             {
                 positions.add(new Vector2d(x, y));
             }
