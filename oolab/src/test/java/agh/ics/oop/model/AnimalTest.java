@@ -36,9 +36,9 @@ class AnimalTest
 
     @ParameterizedTest
     @MethodSource("moveDataFirst")
-    void runMethodShouldChangePositionGivenForwardOrBackward(MoveDirection direction, MapDirection lookingAt, Vector2d expected)
+    void runMethodShouldChangePositionGivenForwardOrBackward(MoveDirection direction, MapDirection lookingAt, Vector2d expected, Vector2d start)
     {
-        var animal = new Animal();
+        var animal = new Animal(start, lookingAt);
         var map = new RectangularMap(5,5);//Given
         animal.move(direction, map); //When
         assertTrue(animal.isAt(expected));
@@ -46,9 +46,10 @@ class AnimalTest
 
     private static Stream<Arguments> moveDataFirst()
     {
+        var start = new Vector2d(1, 1);
         return Stream.of(
-                Arguments.of(MoveDirection.FORWARD, MapDirection.NORTH, DEFAULT_POSITION.add(MapDirection.NORTH.toUnitVector())),
-                Arguments.of(MoveDirection.BACKWARD, MapDirection.NORTH, DEFAULT_POSITION.add(MapDirection.SOUTH.toUnitVector()))
+                Arguments.of(MoveDirection.FORWARD, MapDirection.NORTH, start.add(MapDirection.NORTH.toUnitVector()), start),
+                Arguments.of(MoveDirection.BACKWARD, MapDirection.NORTH, start.add(MapDirection.SOUTH.toUnitVector()), start)
         );
     }
 
@@ -83,8 +84,8 @@ class AnimalTest
     {
         return Stream.of(
                 Arguments.of(MapDirection.WEST, new Vector2d(0, 0)),
-                Arguments.of(MapDirection.SOUTH, new Vector2d(4, 4)),
-                Arguments.of(MapDirection.NORTH, new Vector2d(0, 0)),
+                Arguments.of(MapDirection.NORTH, new Vector2d(4, 4)),
+                Arguments.of(MapDirection.SOUTH, new Vector2d(0, 0)),
                 Arguments.of(MapDirection.EAST, new Vector2d(4, 4))
                 );
     }
@@ -98,11 +99,17 @@ class AnimalTest
         animal.move(MoveDirection.FORWARD, map);
         assertTrue(animal.isAt(vectorOutsideBorder));
     }
-    @Test
-    void toStringFormatChek()
+    @ParameterizedTest
+    @CsvSource({
+            "NORTH, ^",
+            "SOUTH, v",
+            "EAST, >",
+            "WEST, <"
+    })
+    void toStringFormatChek(MapDirection orientation, String expected)
     {
-        var animal = new Animal();
-        assertEquals(String.format("na pozycji %s, patrzy na %s", DEFAULT_POSITION, DEFAULT_ORIENTATION) , animal.toString());
+        var animal = new Animal(DEFAULT_POSITION, orientation);
+        assertEquals(expected , animal.toString());
     }
 
     @Test

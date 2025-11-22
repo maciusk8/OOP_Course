@@ -15,8 +15,6 @@ public class GrassField extends AbstractWorldMap {
         }
         int size = (int) sqrt(grassCnt * 10);
         grasses = initializeGrasses(size + 1, grassCnt); //size + 1 bo w poleceniu jest losowanie włącznie do pozycji sqrt(10*grassCnt)
-        upperRightCorner = new Vector2d(0, 0);
-        lowerLeftCorner = upperRightCorner;
     }
 
     private Map<Vector2d, Grass> initializeGrasses(int size, int grassCnt) {
@@ -57,17 +55,15 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public String toString() {
-        updateBounds();
-        return super.toString();
-    }
-
-    private void updateBounds() {
+    public Boundary getCurrentBounds() {
+        var lowerLeftCorner = new Vector2d(0,0);
+        var upperRightCorner = new Vector2d(0,0);
         List<WorldElement> elements = getElements();
         for (WorldElement element : elements) {
             lowerLeftCorner = lowerLeftCorner.lowerLeft(element.getPosition());
             upperRightCorner = upperRightCorner.upperRight(element.getPosition());
         }
+        return new Boundary(lowerLeftCorner, upperRightCorner);
     }
 
     //metoda na potrzeby testów nie uzywac poza nimi

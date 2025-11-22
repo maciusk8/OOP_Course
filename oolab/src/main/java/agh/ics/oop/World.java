@@ -9,10 +9,16 @@ public class World
     public static void main(String[] args)
     {
         //f b r l f f r r f f f f f f f f
+        try{
         List<MoveDirection> directions = OptionParser.parseMoveDirections(args);
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
         Simulation simulation = new Simulation(positions, directions, new GrassField(10));
         simulation.run();
+        } catch (IllegalArgumentException e) {
+            IO.println(e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
     private static void run(MoveDirection[] directions)

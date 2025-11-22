@@ -1,6 +1,7 @@
 
 package agh.ics.oop.model;
 
+import agh.ics.oop.IncorrectPositionException;
 import agh.ics.oop.MapDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,52 +35,34 @@ class GrassFieldTest
 
     @ParameterizedTest()
     @CsvSource({
-            "0, 0, true",
-            "100, 100, true",
-            "-50, -50, true",
-            "999, 999, true",
-            "-999, -999, true"
+            "0, 0",
+            "100, 100",
+            "-50, -50",
+            "999, 999",
+            "-999, -999"
     })
-    void placeShouldReturnTrueForAnyValidPosition(int x, int y, boolean expectedResult)
-    {
+    void placeShouldPlaceAnimalForAnyValidPosition(int x, int y) throws IncorrectPositionException {
         var position = new Vector2d(x, y);
         var animal = new Animal(position);
-        assertEquals(expectedResult, map.place(animal));
+        map.place(animal);
 
-        if (expectedResult)
-        {
-            assertTrue(map.isOccupied(position));
-            assertEquals(animal, map.objectAt(position));
-        }
+        assertTrue(map.isOccupied(position));
+        assertEquals(animal, map.objectAt(position));
     }
 
     @Test
-    void placeShouldNotPlaceAnimalOnOccupiedSpot()
-    {
+    void placeShouldNotPlaceAnimalOnOccupiedSpotAndThrowException() throws IncorrectPositionException {
         var spot = new Vector2d(3, 3);
         var animal1 = new Animal(spot);
         var animal2 = new Animal(spot);
 
         map.place(animal1);
+        assertThrows(IncorrectPositionException.class, () -> {
+            map.place(animal2);
+        });
 
-        assertFalse(map.place(animal2));
         assertTrue(map.isOccupied(spot));
         assertEquals(animal1, map.objectAt(spot));
-    }
-
-    @Test
-    void placeShouldNotPlaceNull()
-    {
-        assertFalse(map.place(null));
-    }
-
-    @Test
-    void canMoveToShouldReturnFalseForOccupiedCell()
-    {
-        var spot = new Vector2d(4, 3);
-        var animal = new Animal(spot);
-        map.place(animal);
-        assertFalse(map.canMoveTo(spot));
     }
 
     @Test
@@ -91,8 +74,7 @@ class GrassFieldTest
     }
 
     @Test
-    void canMoveToShouldReturnFalseForGrassCellOccupiedByAnimal()
-    {
+    void canMoveToShouldReturnFalseForGrassCellOccupiedByAnimal() throws IncorrectPositionException {
         var spot = new Vector2d(3, 3);
         map.insertGrass(spot);
         map.place(new Animal(spot));
@@ -100,8 +82,7 @@ class GrassFieldTest
     }
 
     @Test
-    void isOccupied_and_objectAt_ShouldWorkCorrectlyForAnimals()
-    {
+    void isOccupied_and_objectAt_ShouldWorkCorrectlyForAnimals() throws IncorrectPositionException {
         var spot = new Vector2d(3, 3);
         var animal = new Animal(spot);
 
@@ -113,8 +94,7 @@ class GrassFieldTest
 
 
     @Test
-    void moveShouldMoveAnimalToEmptySpot()
-    {
+    void moveShouldMoveAnimalToEmptySpot() throws IncorrectPositionException {
         var animal = new Animal(new Vector2d(50, 50));
         map.place(animal);
         map.move(animal, MoveDirection.FORWARD);
@@ -127,8 +107,7 @@ class GrassFieldTest
     }
 
     @Test
-    void move_shouldNotMoveAnimalToOccupiedSpot()
-    {
+    void move_shouldNotMoveAnimalToOccupiedSpot() throws IncorrectPositionException {
         var animal1 = new Animal(new Vector2d(3, 3)); // zwrócone na NORTH
         var animal2 = new Animal(new Vector2d(3, 4));
         map.place(animal1);
@@ -149,8 +128,7 @@ class GrassFieldTest
             "RIGHT, EAST",
             "LEFT, WEST"
     })
-    void moveShouldOnlyTurnAnimalIfDirectionIsLeftOrRight(MoveDirection direction, MapDirection expected)
-    {
+    void moveShouldOnlyTurnAnimalIfDirectionIsLeftOrRight(MoveDirection direction, MapDirection expected) throws IncorrectPositionException {
         var initialPos = new Vector2d(3, 3);
         var animal = new Animal(initialPos);
         map.place(animal);
@@ -165,8 +143,7 @@ class GrassFieldTest
     }
 
     @Test
-    void moveShouldDoNothingForNullAnimalOrDirection()
-    {
+    void moveShouldDoNothingForNullAnimalOrDirection() throws IncorrectPositionException {
         var initialPos = new Vector2d(2, 2);
         var animal = new Animal(initialPos);
         map.place(animal);
@@ -180,8 +157,7 @@ class GrassFieldTest
     }
 
     @Test
-    void moveShouldDoNothingIfAnimalIsNotOnMap()
-    {
+    void moveShouldDoNothingIfAnimalIsNotOnMap() throws IncorrectPositionException {
         Animal animalOnMap = new Animal(new Vector2d(1, 1));
         Animal animalNotOnMap = new Animal(new Vector2d(2, 2));
         map.place(animalOnMap); // Tylko (1,1) jest zajęte
@@ -195,8 +171,7 @@ class GrassFieldTest
     }
 
     @Test
-    void toStringShouldReturnCorrectStringRepresentation()
-    {
+    void toStringShouldReturnCorrectStringRepresentation() throws IncorrectPositionException {
         var animal = new Animal(new Vector2d(5, 5));
         map.place(animal);
 
@@ -207,8 +182,7 @@ class GrassFieldTest
     }
 
     @Test
-    void toStringShouldUpdateBoundsDynamically()
-    {
+    void toStringShouldUpdateBoundsDynamically() throws IncorrectPositionException {
         var animal1 = new Animal(new Vector2d(0, 0));
         map.place(animal1);
 

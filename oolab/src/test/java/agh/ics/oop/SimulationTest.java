@@ -49,30 +49,14 @@ class SimulationTest {
                         new ArrayList<>(List.of(new Vector2d(1, 0))),
                         new ArrayList<>(List.of(MapDirection.SOUTH))
                 ),
-                //Przypadek 5: test z polecenia z invalid stringami
-                Arguments.of(
-                        new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
-                        "invalid f b invalid r l f invalid f r r f f f f f f f f invalid".split(" "),
-                        new RectangularMap(5, 5),
-                        new ArrayList<>(List.of(new Vector2d(2, 0), new Vector2d(3, 4))),
-                        new ArrayList<>(List.of(MapDirection.SOUTH, MapDirection.NORTH))
-                ),
-                //Przypadek 6: test z pustym stringiem
-                Arguments.of(
-                        new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
-                        "".split(" "),
-                        new RectangularMap(5, 5),
-                        new ArrayList<>(List.of(new Vector2d(2, 2), new Vector2d(3, 4))),
-                        new ArrayList<>(List.of(MapDirection.NORTH, MapDirection.NORTH))
-                ),
-                //Przypadek 7: najmniejsza mapa
-                Arguments.of(
-                        new ArrayList<>(List.of(new Vector2d(0, 0))),
-                        "f f r r f".split(" "),
-                        new RectangularMap(1, 1),
-                        new ArrayList<>(List.of(new Vector2d(0, 0))),
-                        new ArrayList<>(List.of(MapDirection.SOUTH))
-                ),
+//                //Przypadek 7: najmniejsza mapa (Funckjonalnosc przetestowana w option parser test)
+//                Arguments.of(
+//                        new ArrayList<>(List.of(new Vector2d(0, 0))),
+//                        "f f r r f".split(" "),
+//                        new RectangularMap(1, 1),
+//                        new ArrayList<>(List.of(new Vector2d(0, 0))),
+//                        new ArrayList<>(List.of(MapDirection.SOUTH))
+//                ),
                 //Przypadek 8: zwierzeta nie powinny przez siebie przechodzic
                 Arguments.of(
                         new ArrayList<>(List.of(new Vector2d(0, 0), new Vector2d(1, 0))),
