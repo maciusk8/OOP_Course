@@ -10,6 +10,15 @@ public abstract class AbstractWorldMap implements WorldMap
     protected  Map<Vector2d, Animal> animals = new HashMap<>();
     protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
     protected Boundary bonds;
+    protected List<MapChangeListener> observers = new ArrayList<>();
+    @Override
+    public void attach(MapChangeListener observer) {observers.add(observer);}
+    @Override
+    public void detach(MapChangeListener observer) {observers.remove(observer);}
+    protected void notify(String message)  //Myśle, ze ta metoda nie powinna byc czescią interfejsu WorldMap, nikt nie powinienpoza klasą mieć dostępu do tej metody
+    {
+        observers.forEach(observer -> observer.mapChanged(this, message));
+    }
     @Override
     public void place(Animal animal) throws IncorrectPositionException
     {
@@ -18,6 +27,7 @@ public abstract class AbstractWorldMap implements WorldMap
         if (!canPlace)
             throw new IncorrectPositionException(position);
         animals.put(position, animal);
+        notify("animal placed at" + position);
     }
 
     @Override
@@ -35,6 +45,7 @@ public abstract class AbstractWorldMap implements WorldMap
         {
             animals.remove(initialPosition);
             animals.put(newPosition, animal);
+            notify("animal moved to" + newPosition);
         }
     }
 
