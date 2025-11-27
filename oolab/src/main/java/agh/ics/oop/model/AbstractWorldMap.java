@@ -13,16 +13,9 @@ public abstract class AbstractWorldMap implements WorldMap
     @Override
     public boolean place(Animal animal)
     {
-        if (animal == null)
-            return false;
-
         Vector2d position = animal.getPosition();
         boolean canPlace = canMoveTo(position);
-        if (canPlace)
-        {
-            animals.put(position, animal);
-        }
-        return canPlace;
+        if (canPlace) {animals.put(position, animal);} return canPlace;
     }
 
     @Override
@@ -51,4 +44,9 @@ public abstract class AbstractWorldMap implements WorldMap
     {
         return new ArrayList<>(animals.values());
     }
+    @Override
+    public boolean isOccupied(Vector2d position) {return animals.containsKey(position);}
+
+    @Override
+    public WorldElement objectAt(Vector2d position) {return animals.get(position);}
 }
