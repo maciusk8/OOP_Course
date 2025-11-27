@@ -19,8 +19,8 @@ public class World
         } catch (IllegalArgumentException e) {
             IO.println(e.getMessage());
             e.printStackTrace();
+            System.exit(1);
         }
-
     }
 
     private static void run(MoveDirection[] directions)
