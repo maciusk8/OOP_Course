@@ -2,20 +2,15 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class OptionParser
 {
-    public static List<MoveDirection> parseMoveDirections(String[] args)
-    {
-        return new ArrayList<>(
-                Arrays.stream(args)
-                        .map(MoveDirection::initializeFromArgs)
-                        .filter(Objects::nonNull)
-                        .toList()
-        );
-    }
+        public static List<MoveDirection> parseMoveDirections (String[]args) throws IllegalArgumentException
+        {
+            return new ArrayList<>(
+                    Arrays.stream(args)
+                            .map(MoveDirection::initializeFromArgs)
+                            .toList());
+        }
 }
