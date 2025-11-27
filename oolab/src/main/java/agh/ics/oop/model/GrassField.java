@@ -30,12 +30,12 @@ public class GrassField extends AbstractWorldMap {
     //Jedyne sensowne zastosowanie tego zrobiłem w toStringu
     @Override
     public boolean isOccupied(Vector2d position) {
-        return animals.containsKey(position) || grasses.containsKey(position);
+        return super.isOccupied(position) || grasses.containsKey(position);
     }
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        if (isOccupied(position) && animals.containsKey(position)) {
+        if (super.isOccupied(position)) {
             return animals.get(position);
         }
         return grasses.get(position);
@@ -43,8 +43,7 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (objectAt(position) instanceof Animal) return false;
-        else return true;
+        return !super.isOccupied(position);
     }
 
     @Override
