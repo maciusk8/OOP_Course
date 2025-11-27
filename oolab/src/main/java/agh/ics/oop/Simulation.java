@@ -30,11 +30,11 @@ public class Simulation
     {
         for (Animal animal : animals)
         {
-            boolean result = map.place(animal);
-            if (!result)
-            {
-                throw new IllegalArgumentException("Invalid initial animal placement. " +
-                        "Position " + animal.getPosition() + " is already occupied or out of bounds.");
+            try {
+                map.place(animal);
+            } catch (IncorrectPositionException e) {
+                IO.println(e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -47,7 +47,6 @@ public class Simulation
         for (int i = 0; i < directions.size(); i++)
         {
             map.move(animals.get(i%animalCnt), directions.get(i));
-            IO.println(map);
         }
     }
 

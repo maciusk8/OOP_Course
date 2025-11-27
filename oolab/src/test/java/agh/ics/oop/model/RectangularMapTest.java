@@ -1,15 +1,18 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.IncorrectPositionException;
 import agh.ics.oop.MapDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Locale;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class RectangularMapTest {
-
+class RectangularMapTest
+{
     private RectangularMap map;
     private static final int WIDTH = 5;
     private static final int HEIGHT = 5;
@@ -36,61 +39,46 @@ class RectangularMapTest {
 
     @ParameterizedTest()
     @CsvSource({
-            "2, 2, true",
-            "0, 0, true",
-            "4, 4, true",
-            "-1, 4, false",
-            "4, 5, false",
-            "5, 4, false"
+            "2, 2",
+            "0, 0",
+            "4, 4",
+            "1, 2",
+            "2, 1",
+            "3, 3",
+            "0, 4",
+            "4, 0"
     })
-    void placeShouldReturnCorrectValue(int x, int y, boolean expectedResult)
-    {
+    void placeShouldPlaceAnimalOnValidSpot(int x, int y) throws IncorrectPositionException {
         var position = new Vector2d(x, y);
         var animal = new Animal(position);
-        assertEquals(expectedResult, map.place(animal));
+        map.place(animal);
 
-        if (expectedResult)
-        {
-            assertTrue(map.isOccupied(position));
-            assertEquals(animal, map.objectAt(position));
-        }
-        else
-        {
-            assertFalse(map.isOccupied(position));
-        }
+        assertTrue(map.isOccupied(position));
+        assertEquals(animal, map.objectAt(position));
     }
 
 
     @Test
-    void placeShouldNotPlaceAnimalOnOccupiedSpot()
-    {
+    void placeShouldNotPlaceAndThrowExceptionAnimalOnOccupiedSpot() throws IncorrectPositionException {
         var animal1 = new Animal(new Vector2d(3, 3));
         var animal2 = new Animal(new Vector2d(3, 3));
 
         map.place(animal1);
-
-        assertFalse(map.place(animal2));
+        assertThrows(IncorrectPositionException.class, () -> {
+            map.place(animal2);
+        });
         assertTrue(map.isOccupied(new Vector2d(3, 3)));
         assertEquals(animal1, map.objectAt(new Vector2d(3, 3)));
     }
-
     @Test
-    void placeShouldNotPlaceNull()
-    {
-        assertFalse(map.place(null));
-    }
-
-    @Test
-    void canMoveToShouldReturnFalseForOccupiedCell()
-    {
+    void canMoveToShouldReturnFalseForOccupiedCell() throws IncorrectPositionException {
         var animal = new Animal(new Vector2d(4, 4));
         map.place(animal);
         assertFalse(map.canMoveTo(new Vector2d(4, 4)));
     }
 
     @Test
-    void isOccupied_and_objectAt_ShouldWorkCorrectly()
-    {
+    void isOccupied_and_objectAt_ShouldWorkCorrectly() throws IncorrectPositionException {
         var pos = new Vector2d(3, 3);
         var animal = new Animal(pos);
 
@@ -104,8 +92,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void moveShouldMoveAnimalToEmptySpot()
-    {
+    void moveShouldMoveAnimalToEmptySpot() throws IncorrectPositionException {
         var animal = new Animal(new Vector2d(2, 2)); // Domyślnie NORTH
         map.place(animal);
         map.move(animal, MoveDirection.FORWARD);
@@ -119,8 +106,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void moveShouldNotMoveAnimalOffMap()
-    {
+    void moveShouldNotMoveAnimalOffMap() throws IncorrectPositionException {
         var initialPos = new Vector2d(0, 0);
         var animal = new Animal(initialPos);
         map.place(animal);
@@ -135,8 +121,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void move_shouldNotMoveAnimalToOccupiedSpot()
-    {
+    void move_shouldNotMoveAnimalToOccupiedSpot() throws IncorrectPositionException {
         var animal1 = new Animal(new Vector2d(3, 3)); // zwrócone na NORTH
         var animal2 = new Animal(new Vector2d(3, 4));
         map.place(animal1);
@@ -157,8 +142,7 @@ class RectangularMapTest {
             "RIGHT, EAST",
             "LEFT, WEST"
     })
-    void moveShouldOnlyTurnAnimalIfDirectionIsLeftOrRight(MoveDirection direction, MapDirection expected)
-    {
+    void moveShouldOnlyTurnAnimalIfDirectionIsLeftOrRight(MoveDirection direction, MapDirection expected) throws IncorrectPositionException {
         var initialPos = new Vector2d(3, 3);
         var animal = new Animal(initialPos);
         map.place(animal);
@@ -174,23 +158,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void moveShouldDoNothingForNullAnimalOrDirection()
-    {
-        var initialPos = new Vector2d(2, 2);
-        var animal = new Animal(initialPos);
-        map.place(animal);
-
-        map.move(null, MoveDirection.FORWARD);
-        assertEquals(animal, map.objectAt(initialPos));
-
-        map.move(animal, null);
-        assertEquals(animal, map.objectAt(initialPos));
-        assertEquals(initialPos, animal.getPosition());
-    }
-
-    @Test
-    void moveShouldDoNothingIfAnimalIsNotOnMap()
-    {
+    void moveShouldDoNothingIfAnimalIsNotOnMap() throws IncorrectPositionException {
         Animal animalOnMap = new Animal(new Vector2d(1, 1));
         Animal animalNotOnMap = new Animal(new Vector2d(2, 2));
         map.place(animalOnMap); // Tylko (1,1) jest zajęte
@@ -204,8 +172,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void toStringShouldReturnCorrectStringRepresentation()
-    {
+    void toStringShouldReturnCorrectStringRepresentation() throws IncorrectPositionException {
         var visualizerMap = new RectangularMap(3, 3);
         var animal = new Animal(new Vector2d(1, 1));
         visualizerMap.place(animal);

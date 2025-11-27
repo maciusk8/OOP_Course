@@ -45,22 +45,24 @@ class OptionParserTest
         assertEquals(expected, parseMoveDirections(args));
     }
     @Test
-    void chekUnexpectedChar()
+    void unexpectedCharShouldThrowException()
     {
         //given
         String[] args = {"q"};
-        List<MoveDirection> expected = List.of();
         //when & then
-        assertEquals(expected, parseMoveDirections(args));
+        assertThrows(IllegalArgumentException.class, () -> {
+            parseMoveDirections(args);
+        });
     }
     @Test
-    void chekUnexpectedCharWithMultipleArgs()
+    void unexpectedCharWithMultipleArgsShouldThrowException()
     {
         //given
         String[] args = {"f","q","b"};
-        List<MoveDirection> expected = List.of(MoveDirection.FORWARD,MoveDirection.BACKWARD);
         //when & then
-        assertEquals(expected, parseMoveDirections(args));
+        assertThrows(IllegalArgumentException.class, () -> {
+            parseMoveDirections(args);
+        });
     }
 
 }
