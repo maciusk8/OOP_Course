@@ -33,7 +33,7 @@ public class World
                 sims.add(simulationRectangularMap);
             }
             SimulationEngine simulationEngine = new SimulationEngine(sims);
-            simulationEngine.runAsync();
+            simulationEngine.runAsyncInThreadPool();
             simulationEngine.awaitSimulationsEnd();
         } catch (IllegalArgumentException | InterruptedException e) {
             IO.println(e.getMessage());
