@@ -6,6 +6,7 @@ import agh.ics.oop.simulation.Simulation;
 import agh.ics.oop.simulation.SimulationEngine;
 import com.sun.jdi.connect.Connector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class World
@@ -15,17 +16,23 @@ public class World
         //f b r l f f r r f f f f f f f f
         try{
             List<MoveDirection> directions = OptionParser.parseMoveDirections(args);
-            List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-            //symulacja dla grass field
-            WorldMap map1 = new GrassField(10);
-            map1.attach(new ConsoleMapDisplay());
-            Simulation simulationGrassField = new Simulation(positions, directions, map1);
-            //symulacja dla rectangular map;
-            WorldMap map2 = new RectangularMap(10,10);
-            map2.attach(new ConsoleMapDisplay());
-            Simulation simulationRectangularMap = new Simulation(positions, directions, map2);
-            //odpalenie obu symulacji
-            SimulationEngine simulationEngine = new SimulationEngine(List.of(simulationGrassField, simulationRectangularMap));
+            List<Vector2d> positions = List.of(new Vector2d(5,5), new Vector2d(3,4));
+            List<Simulation> sims = new ArrayList<>();
+            for (int i = 0; i < 5000; i++)
+            {
+                //symulacja dla grass field
+                WorldMap map1 = new GrassField(10);
+                map1.attach(new ConsoleMapDisplay());
+                Simulation simulationGrassField = new Simulation(positions, directions, map1);
+                //symulacja dla rectangular map;
+                WorldMap map2 = new RectangularMap(10,10);
+                map2.attach(new ConsoleMapDisplay());
+                Simulation simulationRectangularMap = new Simulation(positions, directions, map2);
+
+                sims.add(simulationGrassField);
+                sims.add(simulationRectangularMap);
+            }
+            SimulationEngine simulationEngine = new SimulationEngine(sims);
             simulationEngine.runAsync();
             simulationEngine.awaitSimulationsEnd();
         } catch (IllegalArgumentException | InterruptedException e) {
