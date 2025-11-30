@@ -1,29 +1,59 @@
 package agh.ics.oop.simulation;
 
-import agh.ics.oop.model.MoveDirection;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class SimulationEngine
 {
+    private final static int THREADS_CNT = 4;
     private final List<Simulation> simulations;
     private List<Thread> threads;
+    private boolean started = false;
+    private ExecutorService threadPool;
+
     public SimulationEngine(List<Simulation> simulations) {this.simulations = simulations;}
-    public void runSync() {simulations.forEach(Simulation::run);}
+    private void assertNotStarted()
+    {
+        if (started) {
+            throw new IllegalStateException("SimulationEngine is already running or has been run.");
+        }
+        started = true;
+    }
+    public void runSync()
+    {
+        assertNotStarted();
+        simulations.forEach(Simulation::run);
+    }
+
     public void runAsync()
     {
+        assertNotStarted();
         threads = simulations.stream()
                 .map(Thread::new)
                 .toList();
-        threads.forEach(Thread::start); //mógłbym w teorii robić to w streamie na górze ale chyba warto to odseparować
+        threads.forEach(Thread::start);
     }
-    public void awaitSimulationsEnd() throws InterruptedException{
-        if (threads == null){
-            throw new IllegalStateException("Simulations are not running on Threads.");
-        }
-        for (Thread thread : threads) { thread.join();} //tutaj pętla jest czytelniejsza bo join rzuca wyjątek
+    public void runAsyncInThreadPool()
+    {
+        assertNotStarted();
+        threadPool = Executors.newFixedThreadPool(THREADS_CNT);
+        simulations.forEach(threadPool::submit);
     }
 
+    public void awaitSimulationsEnd() throws InterruptedException {
+        if (threads != null) {
+            for (Thread thread : threads) {
+                thread.join();
+            }
+        }
+
+        if (threadPool != null) {
+            threadPool.shutdown();
+            if (!threadPool.awaitTermination(10, TimeUnit.SECONDS)) {
+                threadPool.shutdownNow();
+            }
+        }
+    }
 }
