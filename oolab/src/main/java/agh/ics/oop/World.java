@@ -26,12 +26,14 @@ public class World
             Simulation simulationRectangularMap = new Simulation(positions, directions, map2);
             //odpalenie obu symulacji
             SimulationEngine simulationEngine = new SimulationEngine(List.of(simulationGrassField, simulationRectangularMap));
-            simulationEngine.runSync();
-        } catch (IllegalArgumentException e) {
+            simulationEngine.runAsync();
+            simulationEngine.awaitSimulationsEnd();
+        } catch (IllegalArgumentException | InterruptedException e) {
             IO.println(e.getMessage());
             e.printStackTrace();
             System.exit(1);
         }
+        IO.println("System finished.");
     }
 
     private static void run(MoveDirection[] directions)
