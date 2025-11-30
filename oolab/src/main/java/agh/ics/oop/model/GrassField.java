@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.Random2DPositionGenerator;
+import agh.ics.oop.model.util.Random2DPositionGenerator;
 
 import java.util.*;
 
@@ -10,6 +10,7 @@ public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grasses;
 
     public GrassField(int grassCnt) {
+        // wg polecenia tutaj powinienem dać Super() ? ale java robi to automatycznie przy konstruktorze klasy nadrzędnej bez parametrów więc nie ma potrzeby
         if (grassCnt < 0) {
             throw new IllegalArgumentException("Grass count cannot be negative");
         }
@@ -25,9 +26,6 @@ public class GrassField extends AbstractWorldMap {
         }
         return result;
     }
-
-    //W teori mógłbym z poniszych metod wydobyć pewne części wspólne z rectangularMap ale byłyby to pojedyncze linijki i wywoływanie super.metoda() byłoby nieczytelne
-    //Jedyne sensowne zastosowanie tego zrobiłem w toStringu
     @Override
     public boolean isOccupied(Vector2d position) {
         return super.isOccupied(position) || grasses.containsKey(position);

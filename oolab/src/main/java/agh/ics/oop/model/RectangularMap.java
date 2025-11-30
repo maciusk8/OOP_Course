@@ -10,7 +10,8 @@ public class RectangularMap extends AbstractWorldMap
 {
     public RectangularMap(int width, int height) // zakładam, ze dane sa poprawne czyli dodatnie niezerowe, najmniejsza mapa to pojedynczy punkty czyli plansza 1x1
     {
-         bonds = new Boundary(new Vector2d(0,0), new Vector2d(width - 1, height - 1)); // bo numerujemy pola od 0 do n - 1, a nie od 1 do n. tj. plansza 1x1 to pole (0, 0)
+        // wg polecenia tutaj powinienem dać Super() ? ale java robi to automatycznie przy konstruktorze klasy nadrzędnej bez parametrów więc nie ma potrzeby
+        bonds = new Boundary(new Vector2d(0,0), new Vector2d(width - 1, height - 1)); // bo numerujemy pola od 0 do n - 1, a nie od 1 do n. tj. plansza 1x1 to pole (0, 0)
     }
     private boolean isWithinBounds(Vector2d position)
     {

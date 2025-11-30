@@ -1,13 +1,9 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.IncorrectPositionException;
-import agh.ics.oop.MapDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 

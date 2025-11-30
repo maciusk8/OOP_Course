@@ -1,12 +1,11 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.MapDirection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import static agh.ics.oop.World.*;
+
 import static agh.ics.oop.model.Animal.*;
 
 import java.util.stream.Stream;
