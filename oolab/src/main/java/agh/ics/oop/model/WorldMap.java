@@ -1,8 +1,7 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.IncorrectPositionException;
-
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The interface responsible for interacting with the map of the world.
@@ -50,4 +49,6 @@ public interface WorldMap extends MoveValidator {
     void attach(MapChangeListener observer);
 
     void detach(MapChangeListener observer);
+
+    UUID getId();
 }

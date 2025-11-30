@@ -1,8 +1,6 @@
 
 package agh.ics.oop.model;
 
-import agh.ics.oop.IncorrectPositionException;
-import agh.ics.oop.MapDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

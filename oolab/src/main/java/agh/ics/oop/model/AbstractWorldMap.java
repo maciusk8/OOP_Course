@@ -1,6 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.IncorrectPositionException;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
@@ -8,14 +7,19 @@ import java.util.*;
 public abstract class AbstractWorldMap implements WorldMap
 {
     protected  Map<Vector2d, Animal> animals = new HashMap<>();
-    protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
+    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
     protected Boundary bonds;
-    protected List<MapChangeListener> observers = new ArrayList<>();
+    private List<MapChangeListener> observers = new ArrayList<>();
+
+    private final UUID id;
+
+    protected AbstractWorldMap() {this.id = UUID.randomUUID();}
+
     @Override
     public void attach(MapChangeListener observer) {observers.add(observer);}
     @Override
     public void detach(MapChangeListener observer) {observers.remove(observer);}
-    protected void notify(String message)  //Myśle, ze ta metoda nie powinna byc czescią interfejsu WorldMap, nikt nie powinienpoza klasą mieć dostępu do tej metody
+    protected void notify(String message)
     {
         observers.forEach(observer -> observer.mapChanged(this, message));
     }
@@ -24,7 +28,8 @@ public abstract class AbstractWorldMap implements WorldMap
     {
         Vector2d position = animal.getPosition();
         boolean canPlace = canMoveTo(position);
-        if (canPlace) {animals.put(position, animal);} return canPlace;
+        if (canPlace) {animals.put(position, animal);}
+        else{throw new IncorrectPositionException(position);}
     }
 
     @Override
@@ -69,4 +74,9 @@ public abstract class AbstractWorldMap implements WorldMap
 
     @Override
     public WorldElement objectAt(Vector2d position) {return animals.get(position);}
+
+    @Override
+    public UUID getId() {
+        return id;
+    }
 }

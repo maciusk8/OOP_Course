@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-import org.junit.jupiter.api.Test;
+import agh.ics.oop.model.MapDirection;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

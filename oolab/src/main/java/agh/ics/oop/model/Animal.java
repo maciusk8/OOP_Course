@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.MapDirection;
-
 import java.util.Objects;
 
 public class Animal implements WorldElement
