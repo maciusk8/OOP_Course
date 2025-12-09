@@ -1,0 +1,80 @@
+.root {
+    -fx-font-family: "SF Pro Display", "Segoe UI", sans-serif;
+}
+
+.glass-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+
+    -fx-background-radius: 25;
+
+    -fx-border-color: rgba(255, 255, 255, 0.6);
+    -fx-border-radius: 25;
+    -fx-border-width: 1;
+
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 30, 0, 0, 10);
+}
+
+.glass-pane:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2); /* Lekkie rozjaśnienie po najechaniu */
+}
+
+#infoLabel {
+    -fx-font-family: "Menlo", "Consolas", monospace;
+    -fx-font-size: 16px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #222222;
+    -fx-effect: dropshadow(one-pass-box, rgba(255,255,255,0.8), 0, 0, 0, 1);
+}
+
+.text-field {
+    -fx-background-radius: 15;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 15;
+
+    -fx-text-fill: #1d1d1f;
+    -fx-prompt-text-fill: #555555;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+.text-field:focused {
+    -fx-border-color: #3f51b5;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+.button {
+    -fx-background-color: #007AFF;
+    -fx-text-fill: white;
+    -fx-font-family: "SF Pro Text", "Helvetica Neue", "Segoe UI", sans-serif;
+    -fx-font-weight: 700;
+    -fx-font-size: 13px;
+    -fx-background-radius: 20px;
+    -fx-padding: 6 22;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 80, 200, 0.3), 5, 0, 0, 2);
+    -fx-background-insets: 0;
+}
+
+.button:hover {
+    -fx-background-color: #0082FF;
+}
+
+.button:pressed {
+    -fx-background-color: #0056b3;
+    -fx-effect: none;
+}
+
+#moveInfoLabel {
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-opacity: 0.7;
+}
+.vbox {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, -5); /* Delikatny cień */
+}

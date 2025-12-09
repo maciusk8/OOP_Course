@@ -45,9 +45,13 @@ public class Simulation implements Runnable
         if (animalCnt == 0)
             return;
 
-        for (int i = 0; i < directions.size(); i++)
-        {
-            map.move(animals.get(i%animalCnt), directions.get(i));
+        try {
+            for (int i = 0; i < directions.size(); i++) {
+                Thread.sleep(500);
+                map.move(animals.get(i % animalCnt), directions.get(i));
+            }
+        } catch (InterruptedException e) {
+         throw new RuntimeException(e);
         }
     }
 
