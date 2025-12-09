@@ -22,7 +22,7 @@ public class SimulationApp extends Application
         BorderPane viewRoot = loader.load();
         SimulationPresenter presenter = loader.getController();
 
-        WorldMap map = new RectangularMap(5,10);
+        WorldMap map = new GrassField(20);
         presenter.setWorldMap(map);
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
