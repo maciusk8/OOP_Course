@@ -28,7 +28,11 @@ public abstract class AbstractWorldMap implements WorldMap
     {
         Vector2d position = animal.getPosition();
         boolean canPlace = canMoveTo(position);
-        if (canPlace) {animals.put(position, animal);}
+        if (canPlace)
+        {
+            animals.put(position, animal);
+            notify("animal placed at" + position);
+        }
         else{throw new IncorrectPositionException(position);}
     }
 
