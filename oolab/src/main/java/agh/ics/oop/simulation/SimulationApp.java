@@ -24,11 +24,6 @@ public class SimulationApp extends Application
 
         WorldMap map = new RectangularMap(5,10);
         presenter.setWorldMap(map);
-        try {
-            map.place(new Animal(new Vector2d(1,1)));
-        } catch (IncorrectPositionException e) {
-            throw new RuntimeException(e);
-        }
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
 
