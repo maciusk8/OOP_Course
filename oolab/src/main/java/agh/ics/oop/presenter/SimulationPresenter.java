@@ -31,8 +31,6 @@ public class SimulationPresenter implements MapChangeListener {
     private GridPane mapGrid;
     @FXML
     private Label moveInfoLabel;
-    @FXML
-    private TextField moveListTextField;
 
     public void setWorldMap(WorldMap map) {
         this.map = map;
@@ -47,15 +45,16 @@ public class SimulationPresenter implements MapChangeListener {
         });
     }
 
-    public void onSimulationStart()
+    public void startSimulation(List<MoveDirection> directions, List<Vector2d> startPositions)
     {
-        if (map == null) return;
+        drawMap();
 
         Simulation simulation = new Simulation(
-                List.of(new Vector2d(4, 4), new Vector2d(1, 1)),
-                OptionParser.parseMoveDirections(moveListTextField.getText().split(" ")),
+                startPositions,
+                directions,
                 map
         );
+
         SimulationEngine engine = new SimulationEngine(List.of(simulation));
         engine.runAsync();
     }

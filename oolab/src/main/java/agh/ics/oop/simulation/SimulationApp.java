@@ -2,6 +2,7 @@ package agh.ics.oop.simulation;
 
 import agh.ics.oop.model.*;
 import agh.ics.oop.presenter.SimulationPresenter;
+import agh.ics.oop.presenter.StartPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,14 +17,12 @@ public class SimulationApp extends Application
         FXMLLoader loader = new FXMLLoader(); // zainicjowanie wczytywania FXML
 
         // wczytanie zasobu z katalogu resources (uniwersalny sposób)
-        loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("start.fxml"));
 
         // Wczytanie FXML, konwersja FXML -> obiekty w Javie
         BorderPane viewRoot = loader.load();
-        SimulationPresenter presenter = loader.getController();
+        StartPresenter presenter = loader.getController();
 
-        WorldMap map = new GrassField(20);
-        presenter.setWorldMap(map);
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
 
@@ -37,7 +36,7 @@ public class SimulationApp extends Application
         primaryStage.setScene(scene);
 
         // konfiguracja okna
-        primaryStage.setTitle("Simulation app");
+        primaryStage.setTitle("Simulation configurator");
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }
