@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
 
+<?import javafx.scene.canvas.Canvas?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="650.0"
             stylesheets="@style.css"
             fx:controller="agh.ics.oop.presenter.SimulationPresenter">
     <center>
-        <GridPane fx:id="mapGrid" alignment="CENTER"/>
+        <Canvas fx:id="mapCanvas" width="500.0" height="500.0" />
     </center>
     <bottom>
         <Label fx:id="moveInfoLabel" text="Symulacja działa..." BorderPane.alignment="CENTER"/>
