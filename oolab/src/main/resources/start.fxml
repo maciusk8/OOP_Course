@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="agh.ics.oop.presenter.StartPresenter"
+            minHeight="300.0" minWidth="400.0">
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Konfiguracja Symulacji" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <TextField fx:id="movesInput" promptText="Wpisz ruchy (np. f b r l)" maxWidth="250"/>
+            <Button text="Start nowej symulacji" onAction="#onSimulationStartClicked"
+                    style="-fx-padding: 10 20 10 20;"/>
+        </VBox>
+    </center>
+</BorderPane>
