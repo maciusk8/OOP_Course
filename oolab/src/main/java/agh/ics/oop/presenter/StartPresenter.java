@@ -15,26 +15,38 @@ import java.util.List;
 
 public class StartPresenter {
 
+    // stałe konfiguracyjne
+    private static final String SIMULATION_FXML = "simulation.fxml";
+    private static final String WINDOW_TITLE_PREFIX = "Symulacja ";
+    private static final String ARGS_SEPARATOR = " ";
+    private static final int GRASS_COUNT = 10;
+    private static final List<Vector2d> STARTING_POSITIONS = List.of(
+            new Vector2d(2, 2),
+            new Vector2d(3, 4)
+    );
+
     @FXML
     private TextField movesInput;
 
     @FXML
     private void onSimulationStartClicked() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("simulation.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(SIMULATION_FXML));
         Scene scene = new Scene(loader.load());
 
         SimulationPresenter presenter = loader.getController();
 
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(GRASS_COUNT);
         presenter.setWorldMap(map);
+
+        String[] moves = movesInput.getText().split(ARGS_SEPARATOR);
         presenter.startSimulation(
-                OptionParser.parseMoveDirections(movesInput.getText().split(" ")),
-                List.of(new Vector2d(2, 2), new Vector2d(3, 4))
+                OptionParser.parseMoveDirections(moves),
+                STARTING_POSITIONS
         );
 
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Symulacja " +  map.getId());
+        stage.setTitle(WINDOW_TITLE_PREFIX + map.getId());
         stage.show();
 
         movesInput.requestFocus();
