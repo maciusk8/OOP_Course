@@ -4,7 +4,16 @@ package agh.ics.oop.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -196,5 +205,40 @@ class GrassFieldTest
 
         // Mapa powinna być większa
         assertTrue(mapString2.length() > mapString1.length());
+    }
+    private static Stream<Arguments> provideAnimalsAndExpectedOrder() {
+        return Stream.of(
+                Arguments.of(
+                        List.of(new Vector2d(2, 3), new Vector2d(1, 4), new Vector2d(2, 2), new Vector2d(5, 7)), // pozycje
+                        List.of(1, 2, 0, 3)
+                ),
+                Arguments.of(
+                        List.of(new Vector2d(0, 0), new Vector2d(1, 0)),
+                        List.of(0, 1)
+                )
+        );
+    }
+    @ParameterizedTest()
+    @MethodSource("provideAnimalsAndExpectedOrder")
+    void animalsShouldBeOrderedByPosition(List<Vector2d> positions, List<Integer> expectedOrderIndices) throws IncorrectPositionException {
+        // given
+        List<Animal> animals = positions.stream()
+                .map(Animal::new)
+                .collect(Collectors.toList());
+
+        for(Animal a : animals){
+            map.place(a);
+        }
+
+        // when
+        Collection<Animal> orderedAnimals = map.getOrderedAnimals();
+
+        // then
+        Animal[] expectedArray = new Animal[expectedOrderIndices.size()];
+        for (int i = 0; i < expectedOrderIndices.size(); i++) {
+            expectedArray[i] = animals.get(expectedOrderIndices.get(i));
+        }
+
+        assertArrayEquals(expectedArray, orderedAnimals.toArray());
     }
 }

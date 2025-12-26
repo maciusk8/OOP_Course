@@ -1,5 +1,6 @@
 package agh.ics.oop.model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,4 +52,6 @@ public interface WorldMap extends MoveValidator {
     void detach(MapChangeListener observer);
 
     UUID getId();
+
+    Collection<Animal> getOrderedAnimals();
 }

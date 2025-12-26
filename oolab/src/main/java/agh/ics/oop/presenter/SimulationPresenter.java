@@ -12,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,6 +40,10 @@ public class SimulationPresenter implements MapChangeListener
     {
         this.map = map;
         map.attach(this);
+        map.attach((WorldMap, message) -> {
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            IO.println(String.format("%s %s%n", timestamp, message));
+        });
     }
 
     @Override
