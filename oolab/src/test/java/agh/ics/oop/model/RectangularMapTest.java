@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,7 +58,9 @@ class RectangularMapTest
         map.place(animal);
 
         assertTrue(map.isOccupied(position));
-        assertEquals(animal, map.objectAt(position));
+        Optional<WorldElement> result = map.objectAt(position);
+        assertTrue(result.isPresent(), "expected animal but its empty");
+        assertEquals(animal, result.get());
     }
 
 
@@ -71,7 +74,9 @@ class RectangularMapTest
             map.place(animal2);
         });
         assertTrue(map.isOccupied(new Vector2d(3, 3)));
-        assertEquals(animal1, map.objectAt(new Vector2d(3, 3)));
+        Optional<WorldElement> result = map.objectAt(new Vector2d(3,3));
+        assertTrue(result.isPresent(), "expected animal but its empty");
+        assertEquals(animal1, result.get());;
     }
     @Test
     void canMoveToShouldReturnFalseForOccupiedCell() throws IncorrectPositionException {
@@ -86,12 +91,14 @@ class RectangularMapTest
         var animal = new Animal(pos);
 
         assertFalse(map.isOccupied(pos));
-        assertNull(map.objectAt(pos));
+        assertTrue(map.objectAt(pos).isEmpty());
 
         map.place(animal);
 
         assertTrue(map.isOccupied(pos));
-        assertEquals(animal, map.objectAt(pos));
+        Optional<WorldElement> result = map.objectAt(pos);
+        assertTrue(result.isPresent(), "expected animal but its empty");
+        assertEquals(animal, result.get());
     }
 
     @Test
@@ -103,9 +110,12 @@ class RectangularMapTest
         Vector2d newPos = new Vector2d(2, 3);
         assertEquals(newPos, animal.getPosition());
         assertFalse(map.isOccupied(new Vector2d(2, 2)));
-        assertNull(map.objectAt(new Vector2d(2, 2)));
+        assertTrue(map.objectAt(new Vector2d(2, 2)).isEmpty());
         assertTrue(map.isOccupied(newPos));
-        assertEquals(animal, map.objectAt(newPos));
+
+        Optional<WorldElement> result = map.objectAt(newPos);
+        assertTrue(result.isPresent(), "expected animal but its empty");
+        assertEquals(animal, result.get());
     }
 
     @Test
@@ -120,7 +130,9 @@ class RectangularMapTest
 
         assertEquals(initialPos, animal.getPosition());
         assertTrue(map.isOccupied(initialPos));
-        assertEquals(animal, map.objectAt(initialPos));
+        Optional<WorldElement> result = map.objectAt(initialPos);
+        assertTrue(result.isPresent(), "expected animal but its empty");
+        assertEquals(animal, result.get());
     }
 
     @Test
@@ -135,9 +147,14 @@ class RectangularMapTest
 
         assertEquals(initialPos, animal1.getPosition());
         assertTrue(map.isOccupied(initialPos));
-        assertEquals(animal1, map.objectAt(initialPos));
+        Optional<WorldElement> result1 = map.objectAt(initialPos);
+        assertTrue(result1.isPresent(), "expected animal but its empty");
+        assertEquals(animal1, result1.get());
+
         assertTrue(map.isOccupied(new Vector2d(3, 4)));
-        assertEquals(animal2, map.objectAt(new Vector2d(3, 4)));
+        Optional<WorldElement> result2 = map.objectAt(new Vector2d(3,4));
+        assertTrue(result2.isPresent(), "expected animal but its empty");
+        assertEquals(animal2, result2.get());
     }
 
     @ParameterizedTest
@@ -156,7 +173,9 @@ class RectangularMapTest
 
         assertEquals(initialPos, animal.getPosition()); //nie powinno sie ruszyc
         assertTrue(map.isOccupied(initialPos));
-        assertEquals(animal, map.objectAt(initialPos));
+        Optional<WorldElement> result = map.objectAt(initialPos);
+        assertTrue(result.isPresent(), "expected animal but its empty");
+        assertEquals(animal, result.get());
 
     }
 

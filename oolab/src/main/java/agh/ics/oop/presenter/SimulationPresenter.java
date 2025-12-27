@@ -131,7 +131,7 @@ public class SimulationPresenter implements MapChangeListener
                 .collect(Collectors.toSet());
 
         for (Vector2d position : occupiedPositions) {
-            Object object = map.objectAt(position); //wyswietlamy zwierzaka nad trawą
+            Object object = map.objectAt(position).get(); //tutaj mam pewność, ze pozycje sa zajmowane przez animale
 
             double screenX = (position.x() - minX + AXIS_OFFSET) * CELL_WIDTH;
             double screenY = (maxY - position.y() + AXIS_OFFSET) * CELL_HEIGHT;
