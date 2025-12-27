@@ -7,7 +7,7 @@ import java.util.*;
 public abstract class AbstractWorldMap implements WorldMap
 {
     protected  Map<Vector2d, Animal> animals = new HashMap<>();
-    private List<Animal> sortedAinmalsList = new ArrayList<>(); //bedzie sortowana zawsze przy metodzie getOrderedAnimals
+    private List<Animal> ainmalsList = new ArrayList<>(); //bedzie sortowana zawsze przy metodzie getOrderedAnimals
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
     protected Boundary bonds;
     private List<MapChangeListener> observers = new ArrayList<>();
@@ -32,7 +32,7 @@ public abstract class AbstractWorldMap implements WorldMap
         if (canPlace)
         {
             animals.put(position, animal);
-            sortedAinmalsList.add(animal);
+            ainmalsList.add(animal);
             notify("animal placed at" + position);
         }
         else{throw new IncorrectPositionException(position);}
@@ -88,10 +88,11 @@ public abstract class AbstractWorldMap implements WorldMap
 
     @Override
     public Collection<Animal> getOrderedAnimals() {
-        Collections.sort(sortedAinmalsList, Comparator.comparing(
+        //w teori mógłbym zrobić animals.values() ale jest to kosztowna operacja
+        return ainmalsList.stream().sorted(Comparator.comparing(
                 Animal::getPosition,
-                Comparator.comparingInt(Vector2d::x).
-                        thenComparingInt(Vector2d::y)));
-        return sortedAinmalsList;
+                Comparator.comparingInt(Vector2d::x)
+                .thenComparingInt(Vector2d::y)))
+                .toList();
     }
 }

@@ -6,6 +6,7 @@ import java.util.*;
 
 public class OptionParser
 {
+    //juz to zrobilem wczesniej
         public static List<MoveDirection> parseMoveDirections (String[]args) throws IllegalArgumentException
         {
             return new ArrayList<>(

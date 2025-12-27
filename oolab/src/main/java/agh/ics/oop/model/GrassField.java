@@ -3,6 +3,7 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.util.Random2DPositionGenerator;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.lang.Math.sqrt;
 
@@ -46,8 +47,9 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public List<WorldElement> getElements() {
-        List<WorldElement> elements = super.getElements();
-        elements.addAll(new ArrayList<>(grasses.values()));
+        List<WorldElement> elements = Stream.concat(
+                super.getElements().stream(), grasses.values().stream())
+                .toList();
         return elements;
     }
 
