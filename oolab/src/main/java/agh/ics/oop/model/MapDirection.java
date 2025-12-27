@@ -38,4 +38,24 @@ public enum MapDirection
             case EAST -> new Vector2d(1, 0);
         };
     }
+
+    public String toAnimalString(){
+        return switch (this)
+        {
+            case NORTH -> "^";
+            case SOUTH -> "v";
+            case WEST -> "<";
+            case EAST -> ">";
+        };
+    }
+
+    public String toAnimalImgSrc(){
+        return switch (this)
+        {
+            case NORTH -> "up.png";
+            case SOUTH -> "down.png";
+            case WEST -> "left.png";
+            case EAST -> "right.png";
+        };
+    }
 }

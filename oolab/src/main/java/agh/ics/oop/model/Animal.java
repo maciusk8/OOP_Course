@@ -34,16 +34,21 @@ public class Animal implements WorldElement
     @Override
     public String toString()
     {
-        return switch (orientation)
-        {
-            case NORTH -> "^";
-            case SOUTH -> "v";
-            case WEST -> "<";
-            case EAST -> ">";
-        };
+        return orientation.toAnimalString();
     }
 
     public Vector2d getPosition() {return position;} //mogę zwrócić referencje, poniewaz nie da sie zmodyfikować tego obiektu
+
+    @Override
+    public String getImageSrc() {
+        return orientation.toAnimalImgSrc();
+    }
+
+    @Override
+    public String getPositionText() {
+        return "Z" + position;
+    }
+
     public MapDirection getOrientation() {return orientation;}
 
     //Konstruktor na potrzeby testów nie powinno się go uzywac poza nim
