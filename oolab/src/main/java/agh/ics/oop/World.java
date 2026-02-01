@@ -6,6 +6,8 @@ import agh.ics.oop.simulation.Simulation;
 import agh.ics.oop.simulation.SimulationEngine;
 import com.sun.jdi.connect.Connector;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +25,18 @@ public class World
                 //symulacja dla grass field
                 WorldMap map1 = new GrassField(10);
                 map1.attach(new ConsoleMapDisplay());
+                map1.attach((WorldMap, message) -> {
+                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    IO.println(String.format("%s %s%n", timestamp, message));
+                });
                 Simulation simulationGrassField = new Simulation(positions, directions, map1);
                 //symulacja dla rectangular map;
                 WorldMap map2 = new RectangularMap(10,10);
                 map2.attach(new ConsoleMapDisplay());
+                map2.attach((WorldMap, message) -> {
+                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    IO.println(String.format("%s %s%n", timestamp, message));
+                });
                 Simulation simulationRectangularMap = new Simulation(positions, directions, map2);
 
                 sims.add(simulationGrassField);

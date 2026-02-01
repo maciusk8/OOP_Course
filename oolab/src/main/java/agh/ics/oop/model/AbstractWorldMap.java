@@ -7,6 +7,7 @@ import java.util.*;
 public abstract class AbstractWorldMap implements WorldMap
 {
     protected  Map<Vector2d, Animal> animals = new HashMap<>();
+    private List<Animal> ainmalsList = new ArrayList<>(); //bedzie sortowana zawsze przy metodzie getOrderedAnimals
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
     protected Boundary bonds;
     private List<MapChangeListener> observers = new ArrayList<>();
@@ -31,6 +32,7 @@ public abstract class AbstractWorldMap implements WorldMap
         if (canPlace)
         {
             animals.put(position, animal);
+            ainmalsList.add(animal);
             notify("animal placed at" + position);
         }
         else{throw new IncorrectPositionException(position);}
@@ -43,7 +45,9 @@ public abstract class AbstractWorldMap implements WorldMap
             return;
 
         Vector2d initialPosition = animal.getPosition();
-        if (!Objects.equals(objectAt(initialPosition), animal)) {return;}
+        Optional<WorldElement> result = objectAt(initialPosition);
+        if(!result.isPresent()) return;;
+        if (!Objects.equals(objectAt(initialPosition).get(), animal)) return;
 
         animal.move(direction, this);
         Vector2d newPosition = animal.getPosition();
@@ -77,10 +81,22 @@ public abstract class AbstractWorldMap implements WorldMap
     public boolean isOccupied(Vector2d position) {return animals.containsKey(position);}
 
     @Override
-    public WorldElement objectAt(Vector2d position) {return animals.get(position);}
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return Optional.ofNullable(animals.get(position));
+    }
 
     @Override
     public UUID getId() {
         return id;
+    }
+
+    @Override
+    public Collection<Animal> getOrderedAnimals() {
+        //w teori mógłbym zrobić animals.values() ale jest to kosztowna operacja
+        return ainmalsList.stream().sorted(Comparator.comparing(
+                Animal::getPosition,
+                Comparator.comparingInt(Vector2d::x)
+                .thenComparingInt(Vector2d::y)))
+                .toList();
     }
 }

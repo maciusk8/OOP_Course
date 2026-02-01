@@ -12,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +24,7 @@ public class SimulationPresenter implements MapChangeListener
     private static final int CELL_WIDTH = 40;
     private static final int CELL_HEIGHT = 40;
     private static final double GRID_LINE_WIDTH = 1.0;
-    private static final int FONT_SIZE = 14;
+    private static final int FONT_SIZE = 8;
     private static final String FONT_NAME = "Arial";
     private static final int AXIS_OFFSET = 1;
     private WorldMap map;
@@ -37,6 +40,10 @@ public class SimulationPresenter implements MapChangeListener
     {
         this.map = map;
         map.attach(this);
+        map.attach((WorldMap, message) -> {
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            IO.println(String.format("%s %s%n", timestamp, message));
+        });
     }
 
     @Override
@@ -117,14 +124,14 @@ public class SimulationPresenter implements MapChangeListener
 
     private void drawObjects(GraphicsContext gc, int minX, int maxY)
     {
-        configureFont(gc, FONT_SIZE, Color.RED);
+        configureFont(gc, FONT_SIZE, Color.BLACK);
 
         Set<Vector2d> occupiedPositions = map.getElements().stream()
                 .map(WorldElement::getPosition)
                 .collect(Collectors.toSet());
 
         for (Vector2d position : occupiedPositions) {
-            Object object = map.objectAt(position); //wyswietlamy zwierzaka nad trawą
+            WorldElement object = map.objectAt(position).get(); //tutaj mam pewność, ze pozycje sa zajmowane przez animale
 
             double screenX = (position.x() - minX + AXIS_OFFSET) * CELL_WIDTH;
             double screenY = (maxY - position.y() + AXIS_OFFSET) * CELL_HEIGHT;
@@ -132,7 +139,9 @@ public class SimulationPresenter implements MapChangeListener
             double centerX = screenX + (CELL_WIDTH / 2.0);
             double centerY = screenY + (CELL_HEIGHT / 2.0);
 
-            gc.fillText(object.toString(), centerX, centerY);
+//           gc.fillText(object.toString(), centerX, centerY);
+            WorldElementBox box = new WorldElementBox(object);
+            box.draw(gc, centerX, centerY);
         }
     }
     private void configureFont(GraphicsContext graphics, int size, Color color)
